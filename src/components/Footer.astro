@@ -19,10 +19,15 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
           <li><span>{h.day}</span><span>{h.time}</span></li>
         ))}
       </ul>
-      <p class="footer-note">
-        <Icon name="iconoir:warning-circle" />
-        <span><strong>Note</strong> — {afterHoursNote}</span>
-      </p>
+      <div class="footer-note">
+        <p class="footer-note-title">
+          <Icon name="iconoir:warning-circle" />
+          <span>{afterHoursNote.title}</span>
+        </p>
+        <p class="footer-note-body">
+          {afterHoursNote.body} <strong>{afterHoursNote.action}</strong>
+        </p>
+      </div>
     </div>
 
     <div class="footer-col-stack">
@@ -46,6 +51,8 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     ))}
 
     <div class="footer-visit">
+      <h3>Visit us</h3>
+
       <div class="footer-map">
         <iframe
           src={mapEmbed}
@@ -103,7 +110,8 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     line-height: 1.55;
     margin-bottom: var(--sp-6);
   }
-  .footer-brand h3 {
+  .footer-brand h3,
+  .footer-visit h3 {
     color: var(--white);
     font-size: 1rem;
     font-weight: 600;
@@ -223,26 +231,40 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     font-weight: 600;
   }
 
+  /* Annotates the hours above it, so it sits close to them and opens a wider
+     gap below. Extra padding on the rail side keeps the text optically centred. */
   .footer-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6em;
-    margin: var(--sp-5) 0 0;
-    padding: var(--sp-4);
+    max-width: 40ch;
+    margin: var(--sp-4) 0 0;
+    padding: var(--sp-4) var(--sp-4) var(--sp-4) var(--sp-5);
     border-radius: var(--r-md);
     background: rgba(255, 255, 255, 0.05);
     border-left: 3px solid var(--amber);
-    font-size: var(--fs-xs);
-    line-height: 1.5;
   }
-  .footer-note [data-icon] {
+  .footer-note-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5em;
+    margin: 0 0 var(--sp-2);
+    color: var(--white);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .footer-note-title [data-icon] {
     color: var(--amber);
+    font-size: 1.05em;
     margin-top: 0.1em;
     flex-shrink: 0;
   }
-  .footer-note strong {
+  .footer-note-body {
+    margin: 0;
+    font-size: var(--fs-xs);
+    line-height: 1.55;
+  }
+  .footer-note-body strong {
     color: var(--white);
-    font-weight: 600;
+    font-weight: 700;
   }
 
   /* ---------- Legal bar ---------- */

@@ -225,8 +225,13 @@ export const reviews = [
 export const footerBlurb =
   'The doctors consulting from Manningham General Practice provide comprehensive care 7 days a week, including dedicated After Hours Care.';
 
-export const afterHoursNote =
-  'For After-Hours Medical Care for Eltham & Montmorency Clinics: if the clinic is closed and you require urgent medical attention, please call 000 and request an ambulance.';
+// Same words as supplied, split into a title line and the instruction so the
+// action ("call 000") can carry the emphasis it needs.
+export const afterHoursNote = {
+  title: 'After-hours medical care — Eltham & Montmorency clinics',
+  body: 'If the clinic is closed and you require urgent medical attention, please',
+  action: 'call 000 and request an ambulance.',
+};
 
 export const footerNav = [
   {
