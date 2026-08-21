@@ -1,0 +1,319 @@
+---
+import { Icon } from 'astro-icon/components';
+import { practice, hours, footerNav, footerBlurb, afterHoursNote } from '../data/site.js';
+
+const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
+  practice.mapQuery
+)}&output=embed`;
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <img src="/assets/logo-dark.png" alt={practice.name} width="230" height="52" />
+      <p class="footer-blurb">{footerBlurb}</p>
+
+      <a class="footer-address" href={practice.mapsUrl} target="_blank" rel="noopener">
+        <Icon name="iconoir:map-pin" />
+        <span>{practice.address}</span>
+      </a>
+
+      <div class="footer-map">
+        <iframe
+          src={mapEmbed}
+          title={`Map to ${practice.name}`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
+      <div class="footer-actions">
+        <a class="btn btn-primary btn-sm" href={practice.bookingUrl} target="_blank" rel="noopener">Book online</a>
+        <a class="btn btn-ghost-light btn-sm" href={practice.phoneHref}>Call us today</a>
+        <a href={practice.facebook} class="footer-social" aria-label="MGP on Facebook">
+          <Icon name="iconoir:facebook" />
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-cols">
+      <div class="footer-col footer-col-hours">
+        <h3>Opening hours</h3>
+        <ul class="footer-hours">
+          {hours.map((h) => (
+            <li><span>{h.day}</span><span>{h.time}</span></li>
+          ))}
+        </ul>
+        <p class="footer-note">
+          <Icon name="iconoir:warning-circle" />
+          <span><strong>Note</strong> — {afterHoursNote}</span>
+        </p>
+        <ul class="footer-contact">
+          <li>
+            <Icon name="iconoir:phone" />
+            <a href={practice.phoneHref}>{practice.phone}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col-stack">
+        {footerNav.filter((g) => !g.wide).map((g) => (
+          <div class="footer-col">
+            <h3>{g.title}</h3>
+            <ul>
+              {g.links.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      {footerNav.filter((g) => g.wide).map((g) => (
+        <div class="footer-col footer-col-wide">
+          <h3>{g.title}</h3>
+          <ul class="footer-list-split">
+            {g.links.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="wrap footer-legal">
+    <p>© {new Date().getFullYear()} {practice.name}. All rights reserved.</p>
+    <p><a href="/privacy">Privacy</a> · <a href="/partners">Partners</a></p>
+    <p>A University of Melbourne &amp; RACGP teaching practice.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    color: var(--on-navy-2);
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    font-size: var(--fs-sm);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-7) var(--sp-6);
+    padding-bottom: var(--sp-7);
+  }
+
+  /* ---------- Brand column ---------- */
+  .footer-brand img {
+    height: 46px;
+    width: auto;
+    margin-bottom: var(--sp-4);
+  }
+  .footer-blurb {
+    max-width: 42ch;
+    line-height: 1.55;
+    margin-bottom: var(--sp-4);
+  }
+  .footer-address {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6em;
+    max-width: 38ch;
+    line-height: 1.45;
+    color: var(--on-navy-2);
+    text-decoration: none;
+    margin-bottom: var(--sp-4);
+  }
+  .footer-address:hover {
+    color: var(--white);
+  }
+  .footer-address [data-icon] {
+    color: var(--blue-300);
+    margin-top: 0.15em;
+    flex-shrink: 0;
+  }
+  .footer-map {
+    max-width: 24rem;
+    aspect-ratio: 2 / 1;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--navy-700);
+    margin-bottom: var(--sp-5);
+    box-shadow: var(--shadow-sm);
+  }
+  .footer-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: saturate(0.85);
+  }
+  .footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .footer-social {
+    display: inline-flex;
+    padding: 0.6rem;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--on-navy);
+    font-size: 1.25rem;
+  }
+  .footer-social:hover {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  /* ---------- Link columns ---------- */
+  .footer-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6) var(--sp-6);
+  }
+  .footer-col-stack {
+    display: grid;
+    gap: var(--sp-6);
+    align-content: start;
+  }
+  .footer-col h3 {
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    margin: 0 0 var(--sp-4);
+  }
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .footer-col a {
+    color: var(--on-navy-2);
+    text-decoration: none;
+  }
+  .footer-col a:hover {
+    color: var(--white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .footer-col ul.footer-list-split {
+    display: block;
+    column-gap: var(--sp-5);
+  }
+  .footer-list-split li {
+    break-inside: avoid;
+    margin-bottom: 0.7rem;
+  }
+
+  .footer-hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    max-width: 20rem;
+  }
+  .footer-hours span:last-child {
+    color: var(--on-navy);
+    font-weight: 600;
+  }
+
+  .footer-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6em;
+    margin: var(--sp-5) 0 0;
+    padding: var(--sp-4);
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--amber);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+  }
+  .footer-note [data-icon] {
+    color: var(--amber);
+    margin-top: 0.1em;
+    flex-shrink: 0;
+  }
+  .footer-note strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .footer-contact {
+    margin-top: var(--sp-5);
+  }
+  .footer-contact li {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .footer-contact [data-icon] {
+    color: var(--blue-300);
+    flex-shrink: 0;
+  }
+  .footer-contact a {
+    color: var(--on-navy);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .footer-contact a:hover {
+    color: var(--white);
+  }
+
+  /* ---------- Legal bar ---------- */
+  .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-3) var(--sp-5);
+    padding-block: var(--sp-5);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: var(--fs-xs);
+    color: var(--on-navy-2);
+  }
+  .footer-legal p {
+    margin: 0;
+  }
+  .footer-legal a {
+    color: var(--on-navy-2);
+    text-decoration: none;
+  }
+  .footer-legal a:hover {
+    color: var(--white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (min-width: 640px) {
+    .footer-cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .footer-col ul.footer-list-split {
+      columns: 2;
+    }
+    .footer-col-wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 980px) {
+    .footer-cols {
+      grid-template-columns: 1.15fr 0.85fr 2fr;
+    }
+    .footer-col-wide {
+      grid-column: auto;
+    }
+  }
+
+  @media (min-width: 1180px) {
+    .footer-top {
+      grid-template-columns: minmax(300px, 0.95fr) 2.3fr;
+      gap: var(--sp-8);
+    }
+  }
+</style>

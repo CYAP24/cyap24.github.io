@@ -1,0 +1,54 @@
+---
+import { Icon } from 'astro-icon/components';
+// Drawn star rating that reflects a real fractional value (e.g. 4.6 → 92%).
+interface Props {
+  rating?: number;
+  tone?: 'light' | 'dark';
+}
+const { rating = 5, tone = 'light' } = Astro.props;
+const pct = Math.max(0, Math.min(100, (rating / 5) * 100));
+---
+
+<span class={`rating rating--${tone}`} role="img" aria-label={`${rating} out of 5 stars`}>
+  <span class="rating-track" aria-hidden="true">
+    {[1, 2, 3, 4, 5].map(() => <Icon name="iconoir:star" />)}
+  </span>
+  <span class="rating-fill" style={`width:${pct}%`} aria-hidden="true">
+    {[1, 2, 3, 4, 5].map(() => <Icon name="iconoir:star-solid" />)}
+  </span>
+</span>
+
+<style>
+  .rating {
+    position: relative;
+    display: inline-flex;
+    line-height: 0;
+    width: max-content;
+  }
+  .rating-track,
+  .rating-fill {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .rating-fill {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .rating [data-icon] {
+    flex: 0 0 auto;
+    font-size: 1.05em;
+  }
+  .rating--light .rating-track {
+    color: var(--blue-100);
+  }
+  .rating--light .rating-fill {
+    color: var(--blue);
+  }
+  .rating--dark .rating-track {
+    color: rgba(255, 255, 255, 0.28);
+  }
+  .rating--dark .rating-fill {
+    color: var(--blue-300);
+  }
+</style>

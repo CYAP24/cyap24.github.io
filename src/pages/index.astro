@@ -1,0 +1,2167 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Stars from '../components/Stars.astro';
+import Motif from '../components/Motif.astro';
+import {
+  practice,
+  hours,
+  quickAccess,
+  whyMgp,
+  doctors,
+  serviceGroups,
+  specialistClinics,
+  partnerClinics,
+  reviews,
+} from '../data/site.js';
+
+const roofServices = ['GP', 'Pathology', 'Pharmacy', 'Radiology', 'Skin clinic'];
+
+const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
+  practice.mapQuery
+)}&z=16&output=embed`;
+---
+
+<Layout>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <span id="top"></span>
+  <Header />
+
+  <main id="main">
+    <!-- ===== HERO ===== -->
+    <section class="hero hero-animate">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1>All your healthcare needs <span class="hl">under one roof</span></h1>
+          <p class="lead">GP, pathology, radiology and skin clinic in the same building.</p>
+
+          <ul class="hero-points">
+            <li><Icon name="iconoir:check" /> Open 7 days</li>
+            <li><Icon name="iconoir:check" /> After-hours available</li>
+            <li><Icon name="iconoir:check" /> Same day appointments</li>
+          </ul>
+
+          <div class="hero-badges">
+            <span class="badge badge-google">
+              <img src="/assets/google-icon.png" alt="Google" width="26" height="26" />
+              <Icon name="iconoir:star-solid" class="badge-star" />
+              <strong>{practice.rating}</strong>
+              <span class="badge-reviews">{practice.reviewCount}<br />Reviews</span>
+            </span>
+            <span class="badge badge-teaching">
+              <span class="badge-teaching-label">Teaching<br />practice</span>
+              <img src="/assets/UoM-logo.png" alt="University of Melbourne" />
+              <img src="/assets/RACGP-logo.png" alt="RACGP" />
+            </span>
+          </div>
+        </div>
+      </div>
+      <img
+        class="hero-photo"
+        src="/assets/hero-banner.webp"
+        alt=""
+        width="980"
+        height="731"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </section>
+
+    <!-- ===== QUICK ACCESS — below the fold, not crowding hero ===== -->
+    <section class="quick section" aria-labelledby="quick-h">
+      <div class="wrap">
+        <h2 id="quick-h" class="quick-h">What do you need today?</h2>
+        <ul class="quick-grid">
+          {quickAccess.map((q) => {
+            const href = q.href === 'BOOKING' ? practice.bookingUrl : q.href;
+            const ext = q.href === 'BOOKING';
+            return (
+              <li>
+                <a href={href} class="quick-tile" {...(ext ? { target: '_blank', rel: 'noopener' } : {})}>
+                  <span class="quick-medallion"><Icon name={q.icon} /></span>
+                  <span class="quick-text">
+                    <span class="quick-label">{q.label}</span>
+                    <span class="quick-desc">{q.desc}</span>
+                    <span class="quick-arrow" aria-hidden="true"><Icon name="iconoir:arrow-right" /></span>
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== OPEN WHEN YOU NEED US — navy anchor ===== -->
+    <section class="hours-sec section" id="hours" aria-labelledby="hours-h">
+      <div class="wrap hours-grid">
+        <div class="hours-lead">
+          <h2 id="hours-h">Open when you need us &mdash; <span class="hl">7 days a week</span></h2>
+          <p class="lead">
+            The doctors consulting from MGP provide comprehensive care 7 days a week, including
+            dedicated After Hours Care. MGP makes provision for 24-hour care from your doctor for
+            urgent medical problems.
+          </p>
+          <div class="hours-flags">
+            <span class="flag"><Icon name="iconoir:flash" /> Same-day appointments</span>
+            <span class="flag"><Icon name="iconoir:half-moon" /> After-hours care</span>
+          </div>
+          <p class="billing-line">
+            MGP is mainly a private billing practice, with some items and concession visits bulk
+            billed. <a href="#billing">See fees &amp; billing</a>.
+          </p>
+        </div>
+        <div class="hours-card">
+          <h3>Opening hours</h3>
+          <ul class="hours-list">
+            {hours.map((h) => (
+              <li><span>{h.day}</span><span class="hours-time">{h.time}</span></li>
+            ))}
+          </ul>
+          <a href={practice.bookingUrl} class="btn btn-primary btn-block" target="_blank" rel="noopener">
+            <Icon name="iconoir:calendar-plus" /> Book online
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHY MGP ===== -->
+    <section class="why section" aria-labelledby="why-h">
+      <div class="wrap why-wrap">
+        <div class="section-head">
+          <h2 id="why-h">More than a referral. We treat it here.</h2>
+          <p class="lead">One practice for the whole family — comprehensive care, on site.</p>
+
+          {/* [CONFIRM] "Contact us" points at the location band; swap for a
+              dedicated contact page once one exists. */}
+          <div class="why-cta">
+            <a href={practice.bookingUrl} class="btn btn-primary" target="_blank" rel="noopener">
+              <Icon name="iconoir:calendar-plus" /> Book online
+            </a>
+            <a href="#location" class="btn btn-secondary">
+              <Icon name="iconoir:phone" /> Contact us
+            </a>
+          </div>
+        </div>
+        <div class="why-grid">
+          {whyMgp.map((w) => (
+            <div class="why-item">
+              <div class="why-bleed" aria-hidden="true">
+                <span class="wb wb-navy"></span>
+                <span class="wb wb-blue"></span>
+                <span class="wb wb-amber"></span>
+              </div>
+              <span class="why-ico"><Icon name={w.icon} /></span>
+              <h3>{w.title}</h3>
+              <p>{w.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section class="services-sec surface-white section" id="services" aria-labelledby="services-h">
+      <div class="wrap">
+        <div class="section-head services-head">
+          <img class="services-motif" src="/assets/motif-variation.png" alt="" width="120" height="66" />
+          <div>
+            <h2 id="services-h"><span class="hl">One practice</span>, every service</h2>
+            <p class="lead">Book what you need, when you need it.</p>
+          </div>
+        </div>
+        {serviceGroups.map((g) => (
+          <section class="svc-group" aria-labelledby={`sg-${g.title.replace(/\W+/g, '-').toLowerCase()}`}>
+            <div class="sg-head">
+              <Motif color="#f36223" size="1.5625rem" />
+              <h3 id={`sg-${g.title.replace(/\W+/g, '-').toLowerCase()}`}>{g.title}</h3>
+            </div>
+            <ul class="svc-cards">
+              {g.items.map((it) => (
+                <li>
+                  <a class="svc-card" href={it.href}>
+                    <img
+                      class="svc-img"
+                      src={`/assets/services/${it.img}.webp`}
+                      alt=""
+                      width="480"
+                      height="270"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="svc-label">
+                      <span class="svc-ico"><Icon name={it.icon} /></span>
+                      <span class="svc-name">{it.name}</span>
+                      <Icon name="iconoir:arrow-right" />
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+
+      </div>
+
+      <!-- Specialist clinics deliberately break the page wrap: icon-led colour
+           tiles running to a 40px margin off each edge. -->
+      <section class="svc-group spec-group" aria-labelledby="specialist-h">
+        <div class="wrap">
+          <div class="sg-head">
+            <Motif color="#3fc8a9" size="1.5625rem" />
+            <h3 id="specialist-h">{specialistClinics.title}</h3>
+          </div>
+        </div>
+        <ul class="spec-cards">
+            {specialistClinics.items.map((it) => (
+              <li>
+                <article class={`spec-card spec-${it.tone}`}>
+                  <span class="spec-ico" aria-hidden="true"><Icon name={it.icon} /></span>
+                  <h4 class="spec-name">{it.name}</h4>
+                  <p class="spec-body">{it.body}</p>
+                  <div class="spec-actions">
+                    <a class="link-cta" href={practice.bookingUrl} target="_blank" rel="noopener">
+                      Book now <Icon name="iconoir:arrow-up-right" />
+                    </a>
+                    <a class="btn btn-primary btn-sm" href={it.href}>Learn more</a>
+                  </div>
+                </article>
+              </li>
+            ))}
+        </ul>
+      </section>
+
+      <div class="wrap">
+
+        <!-- Partner clinics are separate businesses in the Centre: own layout,
+             own visual register, and every link leaves the site. -->
+        <section class="partners" aria-labelledby="partners-h">
+          <div class="sg-head">
+            <Motif color="#e259c9" size="1.5625rem" />
+            <h3 id="partners-h">{partnerClinics.title}</h3>
+          </div>
+          <ul class="partner-list">
+            {partnerClinics.items.map((it) => (
+              <li>
+                <article class="partner-card">
+                  <img
+                    class="partner-img"
+                    src={`/assets/services/${it.img}.webp`}
+                    alt=""
+                    width="480"
+                    height="320"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div class="partner-body">
+                    <span class="partner-ico" aria-hidden="true"><Icon name={it.icon} /></span>
+                    <div class="partner-row">
+                      <div class="partner-copy">
+                        <h4 class="partner-name">{it.name}</h4>
+                        <p class="partner-blurb">{it.blurb}</p>
+                      </div>
+                      <a class="btn btn-primary btn-sm" href={it.href} target="_blank" rel="noopener">
+                        Visit now
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <!-- ===== CARE IN YOUR LANGUAGE ===== -->
+    <section class="doctors-sec section" id="doctors" aria-labelledby="doctors-h">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="doctors-h">Care in your language</h2>
+          <p class="lead">
+            Our doctors span a wide range of fields. Find the right one, in the language you're
+            most comfortable with.
+          </p>
+        </div>
+
+        <ul class="doctor-grid">
+          {doctors.slice(0, 8).map((d) => (
+            <li>
+              {/* [CONFIRM] doctor profile page slugs before publishing. */}
+              <a class="doc-card" href={`/doctors/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`}>
+                <span class="doc-top">
+                <img
+                  class="doc-photo"
+                  src={d.photo === false
+                    ? '/assets/doctor-placeholder.svg'
+                    : `/assets/doctors/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.webp`}
+                  alt=""
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
+                />
+                {d.langs && (
+                  <span class="doc-lang"><span class="doc-hello">{d.hello}!</span> {d.langs}</span>
+                )}
+                </span>
+                <span class="doc-info">
+                  <span class="doc-name">{d.name}</span>
+                  <span class="doc-more link-cta link-cta-navy">View profile <Icon name="iconoir:arrow-up-right" /></span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* [CONFIRM] full doctor listing page slug before publishing. */}
+        <div class="doctors-more">
+          <a href="/doctors" class="btn btn-primary">More doctors</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BILLING ===== -->
+    <section class="billing-sec surface-blue-tint section" id="billing" aria-labelledby="billing-h">
+      <div class="wrap billing-inner">
+        <img
+          class="billing-img"
+          src="/assets/billing-mygov.webp"
+          alt=""
+          width="1011"
+          height="727"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="billing-copy">
+          <span class="billing-ico"><Icon name="iconoir:wallet" /></span>
+          <h2 id="billing-h">Billing, explained simply</h2>
+          <p class="lead">
+            MGP is mainly a private billing practice, with some items and concession visits bulk
+            billed. See what a standard appointment costs and what Medicare rebates back — so there
+            are no surprises.
+          </p>
+          <a href="/fees" class="btn btn-primary"><Icon name="iconoir:wallet" /> See our fees</a>
+          <!-- [CONFIRM] fees page + exact bulk-billed items/eligibility before publishing. -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRUST & INDEPENDENCE ===== -->
+    <section class="trust-sec section" aria-labelledby="trust-h">
+      <div class="wrap">
+        <div class="trust-head">
+          <div>
+            <h2 id="trust-h"><span class="hl">Trusted care</span>, owned by doctors</h2>
+            <div class="trust-rating">
+              <img src="/assets/google-icon.png" alt="Google" width="22" height="22" />
+              <strong>{practice.rating}</strong>
+              <Icon name="iconoir:star-solid" class="trust-star" />
+              <span>from {practice.reviewCount} reviews</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reviews-masonry" data-reveal-group>
+          {[0, 1, 2].map((col) => (
+            <ul class={`reviews-col reviews-col-${col + 1}`}>
+              {reviews.filter((_, i) => i % 3 === col).map((r, j) => (
+                <li class="review-card reveal" style={`--reveal-delay:${col * 130}ms`}>
+                  <div class="review-top">
+                    <span class="review-name">{r.name}</span>
+                    <Icon name="iconoir:quote-solid" class="review-quote" />
+                  </div>
+                  <span class="review-stars" role="img" aria-label="5 out of 5 stars">
+                    <Icon name="iconoir:star-solid" />
+                    <Icon name="iconoir:star-solid" />
+                    <Icon name="iconoir:star-solid" />
+                    <Icon name="iconoir:star-solid" />
+                    <Icon name="iconoir:star-solid" />
+                  </span>
+                  <p class={r.placeholder ? 'review-text is-placeholder' : 'review-text'}>{r.text}</p>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+
+        <div class="teaching-card">
+          <img
+            class="teaching-img"
+            src="/assets/reviews/teaching.webp"
+            alt=""
+            width="760"
+            height="620"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="teaching-body">
+            <h3 class="teaching-title"><span class="hl">Trusted</span> by doctors &amp; patients</h3>
+            <p class="independence">
+            MGP is a teaching practice for the University of Melbourne and the RACGP, and our doctors
+            regularly participate in ethical medical research. The practice is completely independent,
+            with no financial interest in any other service provider within the Centre — so every
+              clinical decision and referral is governed solely by your best interests.
+            </p>
+            <div class="cred-marks">
+              <span class="cred-chip"><img src="/assets/UoM-logo.png" alt="University of Melbourne" /></span>
+              <span class="cred-chip"><img src="/assets/RACGP-logo.png" alt="RACGP" /></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LOCATION ===== -->
+    <section class="location-sec section" id="location" aria-labelledby="location-h">
+      <div class="wrap location-grid">
+        <div class="loc-copy">
+          <div class="section-head">
+            <h2 id="location-h">Our location</h2>
+          </div>
+
+          <div class="loc-address">
+            <span class="loc-address-ico"><Icon name="iconoir:building" /></span>
+            <span>{practice.address}</span>
+          </div>
+
+          <p class="lead loc-intro">
+            Our clinic sits on a corner site between High Street and Manningham Road.
+            We're reachable by public transport and private car.
+          </p>
+
+          <ul class="loc-facts">
+            <li>
+              <h3>200+ parking spaces</h3>
+              <p>Includes undercover parking via the High St entry.</p>
+            </li>
+            <li>
+              <h3>Disabled access available</h3>
+              <p>We provide disability access and accessible facilities.</p>
+            </li>
+            <li>
+              <h3>Open 7 days a week</h3>
+              <p>Open Mon–Fri 8am–8pm, plus weekends and after hours.</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="map-panel">
+          <iframe
+            class="map-embed"
+            src={mapEmbed}
+            title="Map of Manningham General Practice, 200 High Street, Lower Templestowe"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+          <a class="map-cta" href={practice.mapsUrl} target="_blank" rel="noopener">
+            Open in Google Maps <Icon name="iconoir:arrow-up-right" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CLOSING CTA ===== -->
+    <section class="closing" id="book" aria-labelledby="closing-h">
+      <div class="wrap closing-grid">
+        <div class="closing-hours-col">
+          <h2 id="closing-h">Opening hours</h2>
+          <ul class="closing-hours">
+            {hours.map((h) => (
+              <li><strong>{h.day}</strong> <span>{h.time}</span></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="closing-cards">
+          <a class="cta-card cta-card--book" href={practice.bookingUrl} target="_blank" rel="noopener">
+            <span class="cta-ico"><Icon name="iconoir:calendar-plus" /></span>
+            <h3>Book online in only a minute</h3>
+            <p class="cta-sub">Choose your doctor and time online.</p>
+            <span class="btn btn-primary"><Icon name="iconoir:calendar-plus" /> Book online</span>
+          </a>
+          <a class="cta-card cta-card--call" href={practice.phoneHref}>
+            <span class="cta-ico"><Icon name="iconoir:phone" /></span>
+            <h3>Prefer to speak to someone? Call us!</h3>
+            <p class="cta-sub">Talk to our friendly reception team.</p>
+            <span class="btn btn-ghost-light"><Icon name="iconoir:phone" /> {practice.phone}</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <!-- Persistent booking affordance for phone users -->
+  <div class="mobile-cta" aria-label="Quick actions">
+    <a href={practice.phoneHref} class="btn btn-secondary">
+      <Icon name="iconoir:phone" /> Call
+    </a>
+    <a href={practice.bookingUrl} class="btn btn-primary" target="_blank" rel="noopener">
+      <Icon name="iconoir:calendar-plus" /> Book online
+    </a>
+  </div>
+</Layout>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    color: var(--white);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 var(--r-sm) 0;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: #eaf3f9;
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  /* The banner artwork carries its own pattern and bleeds off the right edge. */
+  .hero-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: var(--sp-6);
+  }
+  .hero-grid {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-copy h1 {
+    font-size: var(--fs-display);
+    font-weight: var(--heading-weight);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 19ch;
+  }
+  .hero-copy .hl {
+    color: var(--blue);
+  }
+  .hero-copy .lead {
+    margin-top: var(--sp-6);
+    max-width: 38ch;
+  }
+  .hero-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3) var(--sp-6);
+    margin-top: var(--sp-7);
+  }
+  .hero-points li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .hero-points [data-icon] {
+    color: var(--blue);
+    font-size: 1.1rem;
+  }
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: var(--sp-4);
+    margin-top: var(--sp-7);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: var(--r-pill);
+    padding: 0.65rem 1.15rem;
+  }
+  .badge-google {
+    background: var(--white);
+    border: 1px solid var(--line);
+  }
+  .badge-google img {
+    width: 26px;
+    height: 26px;
+  }
+  .badge-star {
+    color: var(--amber);
+    font-size: 1.15rem;
+  }
+  .badge-google strong {
+    color: var(--navy);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .badge-reviews {
+    color: var(--ink-2);
+    font-size: var(--fs-xs);
+    line-height: 1.15;
+  }
+  .badge-teaching {
+    background: transparent;
+    border: 1px solid var(--blue-300);
+    gap: 0.85rem;
+  }
+  .badge-teaching-label {
+    color: var(--navy);
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .badge-teaching img {
+    height: 44px;
+    width: auto;
+  }
+
+  /* ---------- QUICK ACCESS ---------- */
+  .quick {
+    padding-block: clamp(2.5rem, 4vw, 3.5rem);
+    background: var(--blue);
+  }
+  .quick-h {
+    font-size: var(--fs-h3);
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: var(--sp-5);
+  }
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-3);
+  }
+  .quick-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--sp-3);
+    padding: var(--sp-4);
+    border: 2px solid transparent;
+    border-radius: var(--r-md);
+    background:
+      linear-gradient(var(--white), var(--white)) padding-box,
+      linear-gradient(var(--line), var(--line)) border-box;
+    text-decoration: none;
+    height: 100%;
+    transition: transform 0.55s var(--ease), background 0.55s var(--ease);
+  }
+  .quick-tile:hover {
+    transform: translateY(-6px);
+    background:
+      linear-gradient(var(--white), var(--white)) padding-box,
+      linear-gradient(135deg, var(--navy), var(--blue) 50%, var(--amber)) border-box;
+  }
+  .quick-medallion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    position: relative;
+    isolation: isolate;
+    border-radius: var(--r-md);
+    background: var(--blue-050);
+    color: var(--blue);
+    font-size: 1.4rem;
+    transition: color 0.55s var(--ease);
+  }
+  .quick-medallion::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(145deg, var(--navy), var(--blue) 55%, var(--amber));
+    opacity: 0;
+    transition: opacity 0.55s var(--ease);
+  }
+  /* Hover inverts the pair: the gradient fades up over the square while the
+     icon reverses to white. */
+  .quick-tile:hover .quick-medallion::before {
+    opacity: 1;
+  }
+  .quick-tile:hover .quick-medallion {
+    color: var(--white);
+  }
+  .quick-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .quick-label {
+    font-weight: 600;
+    color: var(--navy);
+    transition: color 0.55s var(--ease);
+  }
+  .quick-tile:hover .quick-label {
+    color: var(--blue);
+  }
+  .quick-desc {
+    font-size: var(--fs-sm);
+    color: var(--ink-3);
+  }
+  .quick-arrow {
+    display: inline-flex;
+    margin-top: 2px;
+    color: var(--blue);
+    font-size: 1.15rem;
+    transition: transform 0.55s var(--ease);
+  }
+  .quick-tile:hover .quick-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ---------- HOURS ---------- */
+  .hours-sec {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-color: var(--white);
+    padding-top: calc(clamp(3rem, 6vw, 5.5rem) * 3.05);
+    padding-bottom: calc(clamp(3rem, 6vw, 5.5rem) * 1.1);
+  }
+  /* Photograph fills the right half of the band; the copy sits on the flat
+     tint in the left half. */
+  .hours-sec::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    z-index: -1;
+    background-image: url('/assets/hours-backdrop.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .hours-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+  /* Heading and lead are one statement; the gap between them was zero. */
+  .hours-lead h2 {
+    font-size: var(--fs-h2);
+    max-width: 18ch;
+    margin-bottom: var(--sp-4);
+  }
+  .hours-lead h2 .hl {
+    color: var(--blue);
+  }
+  .hours-lead .lead,
+  .billing-line {
+    max-width: 46ch;
+  }
+  .hours-lead .lead {
+    font-size: 1rem;
+  }
+  .hours-flags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-4);
+  }
+  .flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.5rem 0.9rem;
+    border-radius: var(--r-pill);
+    background: var(--white);
+    border: 1px solid var(--blue-100);
+    color: var(--navy);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+  }
+  .flag [data-icon] {
+    color: var(--blue);
+  }
+  .billing-line {
+    margin-top: var(--sp-6);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--line);
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+  }
+  .billing-line a {
+    color: var(--blue-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .hours-card {
+    background: var(--white);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: clamp(1.75rem, 3vw, 2.25rem);
+    box-shadow: var(--shadow);
+  }
+  .hours-card h3 {
+    color: var(--navy);
+    font-size: var(--fs-h3);
+    margin-bottom: var(--sp-5);
+  }
+  .hours-list {
+    margin-bottom: var(--sp-5);
+  }
+  .hours-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .hours-list li:last-child {
+    border-bottom: none;
+  }
+  .hours-time {
+    font-weight: 600;
+    color: var(--blue);
+  }
+
+  /* ---------- WHY MGP ---------- */
+  /* Section sits on a soft reception-room backdrop; the heading is pushed well
+     clear of the cards so the artwork breathes between them. */
+  .why {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #eaf3fa;
+  }
+  .why::before,
+  .why::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+  .why::before {
+    left: -2vw;
+    bottom: -5vw;
+    width: 42vw;
+    aspect-ratio: 985 / 676;
+    background-image: url('/assets/pattern-left.webp');
+    background-size: contain;
+    background-position: left bottom;
+  }
+  .why::after {
+    right: -1vw;
+    top: 0;
+    width: 14.5vw;
+    aspect-ratio: 450 / 451;
+    background-image: url('/assets/pattern-right.webp');
+    background-size: contain;
+    background-position: right top;
+  }
+  .why .section-head {
+    margin-bottom: var(--sp-6);
+  }
+  .why-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-6);
+  }
+  .why-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    align-items: start;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+  .why-item {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    padding: var(--sp-6) var(--sp-5);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    transition: transform 0.96s var(--ease), border-color 0.96s var(--ease);
+  }
+  /* Two layers displacing at different speeds: a navy→blue sheet descends from
+     the top. Card lifts, text goes white. */
+  /* Base: a vivid navy→blue→amber gradient revealed through a soft radial mask
+     that grows from the corner — a feathered (not hard) bleed that stays vivid
+     and keeps white text readable. Blurred colour pools bloom on top for the
+     watercolour movement. */
+  .why-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(158deg, var(--navy) 0%, var(--blue) 50%, var(--amber) 126%);
+    -webkit-mask-image: radial-gradient(circle at left bottom, #000 34%, transparent 72%);
+    mask-image: radial-gradient(circle at left bottom, #000 34%, transparent 72%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: left bottom;
+    mask-position: left bottom;
+    -webkit-mask-size: 0% 0%;
+    mask-size: 0% 0%;
+    opacity: 0;
+    transition: -webkit-mask-size 1.52s var(--ease), mask-size 1.52s var(--ease),
+      opacity 1.52s var(--ease);
+  }
+  .why-item:hover::before {
+    -webkit-mask-size: 300% 300%;
+    mask-size: 300% 300%;
+    opacity: 1;
+  }
+  .why-item > * {
+    position: relative;
+    z-index: 1;
+  }
+  /* Soft colour pools that bloom and bleed into each other like watercolour. */
+  .why-bleed {
+    position: absolute;
+    inset: -30%;
+    z-index: 0;
+    filter: blur(30px);
+    pointer-events: none;
+  }
+  .wb {
+    position: absolute;
+    top: 0;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 1.44s var(--ease), transform 1.76s var(--ease);
+  }
+  .wb-navy {
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    left: -8%;
+    background: radial-gradient(circle at 50% 50%, var(--navy) 0%, transparent 66%);
+    transform: translateY(-24%) scale(0.4);
+  }
+  .wb-blue {
+    width: 92%;
+    aspect-ratio: 1 / 1;
+    left: 6%;
+    background: radial-gradient(circle at 50% 50%, var(--blue) 0%, transparent 64%);
+    transform: translateY(26%) scale(0.4);
+    transition-duration: 1.68s, 2s;
+  }
+  .wb-amber {
+    width: 86%;
+    aspect-ratio: 1 / 1;
+    left: 4%;
+    background: radial-gradient(circle at 50% 50%, var(--amber) 0%, transparent 60%);
+    transform: translateY(78%) scale(0.4);
+    transition-duration: 1.92s, 2.32s;
+  }
+  .why-item:hover .wb {
+    opacity: 0.7;
+  }
+  .why-item:hover .wb-navy {
+    transform: translateY(-20%) scale(1.15);
+  }
+  .why-item:hover .wb-blue {
+    transform: translateY(24%) scale(1.25);
+  }
+  .why-item:hover .wb-amber {
+    transform: translateY(72%) scale(1.3);
+  }
+  .why-item:hover {
+    transform: translateY(-8px);
+    border-color: transparent;
+  }
+  .why-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--r-md);
+    background: var(--blue-050);
+    color: var(--blue);
+    font-size: 1.6rem;
+    margin-bottom: var(--sp-4);
+    transition: background-color 0.64s var(--ease), color 0.64s var(--ease);
+  }
+  .why-item:hover .why-ico {
+    background: rgba(255, 255, 255, 0.16);
+    color: var(--white);
+  }
+  .why-item h3 {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--sp-5);
+    transition: color 0.64s var(--ease);
+  }
+  .why-item p {
+    color: var(--ink-2);
+    transition: color 0.64s var(--ease);
+  }
+  .why-item:hover h3 {
+    color: var(--white);
+  }
+  .why-item:hover p {
+    color: var(--on-navy);
+  }
+
+  /* ---------- DOCTORS ---------- */
+  .doctor-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-3);
+  }
+  /* Stacked card: portrait on top, name and languages beneath. The whole card
+     is the link to that doctor's profile. */
+  .doc-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--sp-5);
+    border: 2px solid transparent;
+    border-radius: var(--r-md);
+    background:
+      linear-gradient(var(--white), var(--white)) padding-box,
+      linear-gradient(var(--line), var(--line)) border-box;
+    text-decoration: none;
+    transition: transform 0.55s var(--ease), background 0.55s var(--ease);
+  }
+  .doc-photo {
+    display: block;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(var(--blue-050), var(--blue-050)) padding-box,
+      linear-gradient(135deg, transparent, transparent) border-box;
+    transition: background 0.55s var(--ease);
+  }
+  .doc-card:hover .doc-photo {
+    background:
+      linear-gradient(var(--blue-050), var(--blue-050)) padding-box,
+      linear-gradient(135deg, var(--blue), var(--amber)) border-box;
+  }
+  .doc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    flex: 1;
+  }
+  /* The visible affordance that each card leads somewhere. */
+  .doc-more {
+    margin-top: auto;
+    padding-top: var(--sp-3);
+    color: var(--blue);
+    font-size: 1rem;
+  }
+  .doc-card .doc-more,
+  .doc-card .doc-more [data-icon] {
+    color: var(--blue);
+  }
+  .doc-card .doc-more {
+    font-size: 1rem;
+  }
+  .doc-card:hover .doc-more [data-icon] {
+    transform: translateX(3px) rotate(45deg);
+  }
+  .doc-card:hover {
+    transform: translateY(-6px);
+    background:
+      linear-gradient(var(--white), var(--white)) padding-box,
+      linear-gradient(135deg, var(--navy), var(--blue) 50%, var(--amber)) border-box;
+  }
+  .doc-name {
+    display: block;
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+  .doc-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-3);
+  }
+  /* The documented language chip: white pill, pale-blue border. */
+  .doc-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    padding: 0.2rem 0.55rem;
+    background: var(--white);
+    border: 1px solid var(--blue-100);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    color: var(--ink-2);
+    line-height: 1.25;
+  }
+  .doc-hello {
+    color: var(--blue-700);
+    font-weight: 800;
+  }
+  /* Brand-blue band: the heading and lead reverse to white; the doctor cards
+     stay white so their navy text is unaffected. */
+  .doctors-sec {
+    background: var(--blue);
+  }
+  #doctors-h {
+    color: var(--white);
+  }
+  .doctors-sec .section-head .lead {
+    color: var(--on-navy);
+  }
+  .doctors-more {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--sp-6);
+  }
+  .fine {
+    font-size: var(--fs-sm);
+    color: var(--ink-3);
+  }
+
+  /* ---------- SERVICES ---------- */
+  /* The section headline is led by the "one roof" motif. */
+  .services-head {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    margin-bottom: var(--sp-8);
+  }
+  .services-motif {
+    flex-shrink: 0;
+    width: clamp(4rem, 8vw, 7rem);
+    height: auto;
+  }
+  .services-head .hl {
+    color: var(--blue);
+  }
+
+  /* Each category owns a headline led by a coloured brand motif, so the
+     categories read as separate chapters instead of grid cells. */
+  .svc-group + .svc-group,
+  .spec-group,
+  .partners {
+    margin-top: var(--sp-9);
+  }
+  .sg-head {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin-bottom: 0;
+  }
+  .sg-head svg {
+    flex-shrink: 0;
+  }
+  .sg-head h3 {
+    font-size: 1.5625rem;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .sg-note {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    margin: var(--sp-3) 0 0;
+    line-height: 1.5;
+    max-width: var(--measure);
+  }
+  /* Category headings sit well clear of their cards. */
+  .svc-cards,
+  .spec-cards,
+  .partner-list {
+    margin-top: 2.25rem;
+  }
+
+  /* One small, uniform card per service. */
+  .svc-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-4);
+  }
+  .svc-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.33s var(--ease);
+  }
+  .svc-card:hover {
+    transform: translateY(-4px);
+  }
+  .svc-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--blue-050);
+  }
+  .svc-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    border-radius: var(--r-sm);
+    background: var(--blue-050);
+    color: var(--blue);
+    font-size: 0.95rem;
+    transition: background 0.5s var(--ease), color 0.5s var(--ease);
+  }
+  .svc-label {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-4) var(--sp-3);
+    color: var(--navy);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  /* Same feathered gradient bleed as the "more than a referral" cards: a
+     navy→blue→amber sheet revealed through a soft radial mask. */
+  .svc-label::before {
+    content: '';
+    position: absolute;
+    /* Oversized and blurred so the leading edge of the sweep feathers into the
+       bar instead of cutting a hard arc across it. */
+    inset: -40%;
+    filter: blur(16px);
+    z-index: -1;
+    background: linear-gradient(158deg, var(--navy) 0%, var(--blue) 50%, var(--amber) 126%);
+    -webkit-mask-image: radial-gradient(circle at left bottom, #000 34%, transparent 72%);
+    mask-image: radial-gradient(circle at left bottom, #000 34%, transparent 72%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: left bottom;
+    mask-position: left bottom;
+    -webkit-mask-size: 0% 0%;
+    mask-size: 0% 0%;
+    opacity: 0;
+    transition: -webkit-mask-size 1s var(--ease), mask-size 1s var(--ease),
+      opacity 1s var(--ease);
+  }
+  .svc-card:hover .svc-label::before {
+    -webkit-mask-size: 300% 300%;
+    mask-size: 300% 300%;
+    opacity: 1;
+  }
+  .svc-card:hover .svc-label,
+  .svc-card:hover .svc-name {
+    color: var(--white);
+  }
+  .svc-card:hover .svc-label > [data-icon] {
+    color: var(--white);
+  }
+  .svc-card:hover .svc-ico {
+    background: rgba(255, 255, 255, 0.16);
+    color: var(--white);
+  }
+  .svc-name {
+    flex: 1;
+    transition: color 0.5s var(--ease);
+  }
+  .svc-label > [data-icon] {
+    flex-shrink: 0;
+    margin-top: 0.1em;
+    color: var(--blue);
+    font-size: 1.1rem;
+    transform: rotate(-45deg);
+    transition: transform 0.5s var(--ease), color 0.5s var(--ease);
+  }
+  .svc-card:hover .svc-label > [data-icon] {
+    transform: translateX(3px) rotate(0deg);
+  }
+
+  /* Specialist clinics: large solid-colour tiles led by a big icon. Each tone
+     is dark enough to carry white text at AA; the button reverses to white so
+     amber stays reserved for the page's one booking action. */
+  /* Single column on phones; the 40px page-edge inset is a wide-screen move. */
+  .spec-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding-inline: clamp(1.1rem, 4vw, 2.5rem);
+  }
+  @media (min-width: 560px) {
+    .spec-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .spec-group .wrap {
+    padding-inline: clamp(1.1rem, 4vw, 2.5rem);
+  }
+  .services-sec {
+    overflow-x: clip;
+  }
+  /* Each clinic's hue reads at the top of the card and settles into the brand
+     navy at the base, so the four tiles stay one family. */
+  .spec-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    padding: 1.75rem;
+    border-radius: 0.25rem;
+    color: var(--white);
+    background-color: var(--tone);
+    background-image: linear-gradient(135deg, var(--tone-light) 0%, var(--tone) 42%, var(--navy) 108%);
+    background-size: 100% 175%;
+    background-position: 50% 0%;
+    transition: background-position 0.7s var(--ease), border-radius 0.7s var(--ease);
+  }
+  .spec-card:hover {
+    background-position: 50% 100%;
+    border-radius: var(--r-lg);
+  }
+  .spec-purple {
+    --tone-light: #9070c2;
+    --tone: #6d4a9c;
+    --tone-soft: #d9c7f2;
+    --tone-deep: #4a2d73;
+  }
+  .spec-green {
+    --tone-light: #4f9773;
+    --tone: #2f6d50;
+    --tone-soft: #bcd9c9;
+    --tone-deep: #1f4a35;
+  }
+  .spec-pink {
+    --tone-light: #ca5f92;
+    --tone: #a63a6c;
+    --tone-soft: #f7b3d2;
+    --tone-deep: #7a2249;
+  }
+  .spec-orange {
+    --tone-light: #dd8541;
+    --tone: #b45c1e;
+    --tone-soft: #f8cb9c;
+    --tone-deep: #7b3c10;
+  }
+  .spec-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.625rem;
+    background: var(--tone-soft);
+    color: var(--tone-deep);
+    font-size: 1.75rem;
+    margin-bottom: 4.25rem;
+  }
+  .spec-name {
+    font-size: clamp(1.35rem, 1.15rem + 0.8vw, 1.65rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: var(--sp-3);
+  }
+  .spec-body {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    margin-bottom: 2.25rem;
+  }
+  .spec-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sp-4);
+    width: 100%;
+    margin-top: auto;
+  }
+
+  /* Underlined amber text link — the "read more" voice, distinct from the
+     amber Book button that carries the booking action. */
+  .link-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--amber);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+  /* On light cards the link reverses to navy with a brand-blue arrow. */
+  .link-cta-navy {
+    color: var(--navy);
+  }
+  .link-cta-navy [data-icon] {
+    color: var(--blue);
+  }
+  /* ...and on the dark blue partner cards, white with a light-blue arrow. */
+  .link-cta-light {
+    color: var(--white);
+  }
+  .link-cta-light [data-icon] {
+    color: var(--blue-100);
+  }
+  .link-cta [data-icon] {
+    transition: transform 0.5s var(--ease);
+  }
+  .link-cta:hover [data-icon] {
+    transform: translateX(3px) rotate(45deg);
+  }
+
+  /* Partner clinics sit directly on the band — no card container. The image
+     leads, the copy and the off-site action sit beneath it. */
+  .partner-list {
+    display: grid;
+    gap: 5rem;
+  }
+  .partner-card {
+    display: block;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 1.25rem;
+    transition: border-color 0.4s var(--ease);
+  }
+  .partner-card:hover {
+    border-color: var(--blue);
+  }
+  .partner-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2.27 / 1;
+    object-fit: cover;
+    border-radius: 1rem;
+    background: var(--blue-100);
+    transition: transform 0.4s var(--ease);
+  }
+  .partner-card:hover .partner-img {
+    transform: scale(0.97);
+  }
+  .partner-body {
+    padding: 2.2rem 20px 20px;
+  }
+  .partner-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.375rem;
+    height: 2.375rem;
+    border-radius: var(--r-sm);
+    background: var(--blue);
+    color: var(--white);
+    font-size: 1.25rem;
+  }
+  .partner-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--sp-5);
+    margin-top: 1.2rem;
+  }
+  .partner-name {
+    color: var(--navy);
+    font-size: clamp(1.4rem, 1.1rem + 1vw, 1.875rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .partner-blurb {
+    margin-top: 1.575rem;
+    color: var(--ink-2);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* ---------- BILLING ---------- */
+  /* Image left, copy right — the copy reads left-aligned rather than centred. */
+  .billing-sec {
+    overflow: hidden;
+    padding-block: 0;
+  }
+  .billing-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    align-items: center;
+  }
+  .billing-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    align-self: stretch;
+  }
+  .billing-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-4);
+    max-width: 46ch;
+    padding-block: clamp(3rem, 6vw, 5.5rem);
+  }
+  .billing-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--r-md);
+    background: var(--white);
+    color: var(--blue);
+    font-size: 1.7rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .billing-copy .lead {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  /* ---------- TRUST ---------- */
+  .trust-sec {
+    background: #f8f7f5;
+  }
+  .trust-head {
+    margin-bottom: var(--sp-7);
+    text-align: center;
+  }
+  .trust-head h2 {
+    font-size: var(--fs-h2);
+  }
+  .trust-head .hl {
+    color: var(--blue);
+  }
+  /* Credentials and the independence statement read as one claim, so they
+     share a single card under the reviews. */
+  .teaching-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    padding: var(--sp-3);
+    border-radius: var(--r-lg);
+    background: var(--white);
+    border: 1px solid var(--line-strong);
+  }
+  .teaching-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 13rem;
+    object-fit: cover;
+    border-radius: var(--r-md);
+  }
+  .teaching-body {
+    padding: var(--sp-5);
+  }
+  .teaching-title .hl {
+    color: var(--blue);
+  }
+  .teaching-title {
+    font-size: var(--fs-h2);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--navy);
+  }
+  .cred-chip {
+    display: inline-flex;
+    align-items: center;
+  }
+  .trust-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85em;
+    margin-top: var(--sp-6);
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .trust-star {
+    color: var(--amber);
+    font-size: 1.35rem;
+  }
+  .trust-rating strong {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .cred-marks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+  .cred-chip img {
+    height: 92px;
+    width: auto;
+  }
+  /* Reviews carousel — a scroll-snap track, so it works with a thumb swipe,
+     a trackpad, the arrow buttons and the keyboard alike. Data-driven: add an
+     entry to `reviews` in site.js and it joins the track. */
+  /* Masonry column flow, so cards keep the uneven, floating rhythm of the
+     reference rather than locking to a rigid row grid. */
+  /* Three real columns, each offset by a different amount, so the cards sit
+     in an alternating rhythm rather than one flat top line. */
+  .reviews-masonry {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+    margin-bottom: 8rem;
+  }
+  .reviews-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+  .review-card {
+    display: block;
+    background: var(--blue-050);
+    border-radius: var(--r-md);
+    padding: var(--sp-5);
+  }
+  .review-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--sp-3);
+  }
+  .review-name {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 1rem;
+  }
+  .review-quote {
+    flex-shrink: 0;
+    color: var(--blue);
+    font-size: 1.5rem;
+  }
+  .review-stars {
+    display: inline-flex;
+    gap: 0.1rem;
+    color: var(--amber);
+    font-size: 1rem;
+    margin: var(--sp-3) 0 2.25rem;
+  }
+  .review-text {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+  .is-placeholder {
+    color: var(--ink-3);
+    font-style: italic;
+  }
+
+  .independence {
+    margin: var(--sp-6) 0 var(--sp-7);
+    color: var(--ink-2);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  /* Float-and-fade as the section enters the viewport. */
+  :global(html.js-reveal) .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  :global(html.js-reveal) .reveal.is-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 3.3s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+      transform 3.3s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.is-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ---------- LOCATION ---------- */
+  .location-sec {
+    background: #eaf3fa;
+  }
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .loc-copy {
+    align-self: center;
+  }
+  .location-sec .section-head h2 {
+    margin-bottom: var(--sp-5);
+  }
+  /* Address in its own container, led by a building icon. */
+  .loc-address {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    padding: var(--sp-4);
+    background: transparent;
+    border-radius: var(--r-md);
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.45;
+    margin-bottom: var(--sp-5);
+  }
+  /* gradient stroke, no fill */
+  .loc-address::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--blue), var(--amber));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .loc-address-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    border-radius: var(--r-sm);
+    background: var(--blue);
+    color: var(--white);
+    font-size: 1.25rem;
+  }
+  .loc-intro {
+    font-size: 1rem;
+    margin-bottom: var(--sp-6);
+  }
+  .loc-facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+  .loc-facts h3 {
+    font-size: 1.25rem;
+    color: var(--blue);
+    margin-bottom: var(--sp-2);
+  }
+  .loc-facts p {
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Live Google Maps embed; the caption bar carries the link out. */
+  .map-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 1 / 0.8;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--navy);
+  }
+  .map-embed {
+    flex: 1;
+    width: 100%;
+    border: 0;
+    display: block;
+  }
+  .map-cta {
+    position: absolute;
+    top: var(--sp-4);
+    right: var(--sp-4);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1.1rem;
+    background: var(--amber);
+    color: var(--navy);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+    transition: background-color 0.18s var(--ease);
+  }
+  .map-cta:hover {
+    background: var(--amber-600);
+  }
+  .map-cta [data-icon] {
+    transition: transform 0.5s var(--ease);
+  }
+  .map-cta:hover [data-icon] {
+    transform: translateX(3px) rotate(45deg);
+  }
+
+  /* ---------- CLOSING ---------- */
+  .closing {
+    background:
+      url('/assets/booking-cta-bg.png') no-repeat right center / auto 100%,
+      linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    color: var(--white);
+    padding-block: 30px;
+  }
+  .closing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: stretch;
+  }
+  .closing-hours-col {
+    align-self: center;
+  }
+  .closing-hours-col h2 {
+    color: var(--white);
+    font-size: var(--fs-h2);
+    margin-bottom: var(--sp-5);
+  }
+  .closing-hours {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    max-width: 22rem;
+  }
+  .closing-hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .closing-hours strong {
+    color: var(--white);
+    font-weight: 700;
+  }
+  .closing-hours span {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .closing-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    height: 100%;
+  }
+  .cta-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-4);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--white);
+    min-height: 23.4375rem;
+    transition: border-radius 0.4s var(--ease);
+  }
+  .cta-card:hover {
+    border-radius: 24px;
+  }
+  .cta-card--book {
+    background: linear-gradient(120deg, var(--navy) -5%, var(--blue) 42%, var(--amber) 125%);
+    background-size: 100% 100%;
+    background-position: center;
+    transition: border-radius 0.4s var(--ease), background-size 1s var(--ease),
+      background-position 1s var(--ease);
+  }
+  .cta-card--book:hover {
+    background-size: 135% 135%;
+    background-position: 75% 70%;
+  }
+  .cta-card--call {
+    background: var(--blue);
+  }
+  .cta-card--locum {
+    background: var(--navy);
+  }
+  .cta-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    font-size: 1.4rem;
+    margin-bottom: var(--sp-6);
+  }
+  .cta-card h3 {
+    color: var(--white);
+    font-size: 2.1875rem;
+    line-height: 1.2;
+  }
+  .cta-sub {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+  }
+  .cta-card .btn {
+    margin-top: auto;
+  }
+
+  /* ---------- MOBILE ACTION BAR ---------- */
+  .mobile-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    display: none;
+    gap: var(--sp-3);
+    padding: 0.6rem 0.9rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 18px rgba(12, 39, 72, 0.1);
+  }
+  .mobile-cta .btn {
+    flex: 1;
+    padding-inline: 0.5rem;
+  }
+  .mobile-cta .btn-secondary {
+    background: var(--white);
+  }
+
+  /* ---------- AUTHORED HERO ENTRANCE (one moment) ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-animate .hero-copy > * {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: heroRise 0.7s var(--ease) forwards;
+    }
+    .hero-animate .hero-copy > *:nth-child(1) { animation-delay: 0.06s; }
+    .hero-animate .hero-copy > *:nth-child(2) { animation-delay: 0.14s; }
+    .hero-animate .hero-copy > *:nth-child(3) { animation-delay: 0.22s; }
+    .hero-animate .hero-copy > *:nth-child(4) { animation-delay: 0.3s; }
+  }
+  @keyframes heroRise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (min-width: 560px) {
+    .quick-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .doctor-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .why-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .loc-facts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--sp-4);
+    }
+    .reviews-masonry {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+    .svc-cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .hero {
+      min-height: 731px;
+      display: flex;
+      align-items: center;
+      padding-block: 0;
+    }
+    .hero-grid {
+      width: 100%;
+    }
+    .hero-copy {
+      max-width: 46rem;
+    }
+    .hero-photo {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: auto;
+      height: 100%;
+      margin-top: 0;
+      z-index: 1;
+    }
+    .quick-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .hours-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+    }
+    .why-wrap {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: start;
+    }
+    .why .section-head {
+      margin-bottom: 0;
+      padding-top: 40px;
+    }
+    .doctor-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .svc-cards {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .spec-cards {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .partner-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .teaching-card {
+      grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+    }
+    .teaching-body {
+      padding: var(--sp-6) var(--sp-7);
+    }
+    .reviews-masonry {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+    }
+    .reviews-col-1 {
+      margin-top: var(--sp-8);
+    }
+    .reviews-col-3 {
+      margin-top: 8rem;
+    }
+    .billing-inner {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: center;
+    }
+    /* Bleeds left of the wrap; its height is the band's height. */
+    .billing-img {
+      width: 118%;
+      max-width: none;
+      margin-left: -12%;
+    }
+    .location-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .loc-copy {
+      max-width: 80%;
+    }
+    .closing-grid {
+      grid-template-columns: 0.7fr 1.3fr;
+    }
+    .closing-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .mobile-cta {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  // "Open now" indicator from opening hours (local time).
+  // Mon–Fri 8–20, Sat 9–17, Sun 9–13.
+  const schedule = {
+    0: [9, 13], // Sun
+    1: [8, 20], 2: [8, 20], 3: [8, 20], 4: [8, 20], 5: [8, 20],
+    6: [9, 17], // Sat
+  };
+  const now = new Date();
+  const day = now.getDay();
+  const hour = now.getHours() + now.getMinutes() / 60;
+  const [open, close] = schedule[day];
+  const isOpen = hour >= open && hour < close;
+  const fmt = (h) => {
+    const hr = h % 12 === 0 ? 12 : h % 12;
+    return `${hr}${h < 12 ? 'am' : 'pm'}`;
+  };
+  const statusEl = document.getElementById('open-status');
+  const todayEl = document.getElementById('open-today');
+  const dotEl = document.getElementById('open-dot');
+  if (statusEl && todayEl && dotEl) {
+    if (isOpen) {
+      statusEl.textContent = 'Open now';
+      todayEl.textContent = `Until ${fmt(close)} today`;
+    } else {
+      statusEl.textContent = 'Open 7 days';
+      todayEl.textContent = `Today ${fmt(open)}–${fmt(close)}`;
+      dotEl.setAttribute('data-closed', '');
+    }
+  }
+
+  // ---- Reveal on scroll ----------------------------------------------------
+  // Cards float and fade up once as the section enters view. Anything the
+  // observer cannot reach stays visible, so content never depends on JS.
+  const revealEls = document.querySelectorAll('.reveal');
+  const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (revealEls.length && motionOk && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('js-reveal');
+
+    const showAll = () => revealEls.forEach((el) => el.classList.add('is-in'));
+    // Failsafe: if the observer never reports (some embedded webviews), show
+    // everything rather than leave the section blank.
+    const failsafe = setTimeout(showAll, 2500);
+
+    let reported = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!reported) {
+          reported = true;
+          clearTimeout(failsafe);
+        }
+        entries.forEach((entry) => {
+          const targets = entry.target.hasAttribute('data-reveal-group')
+            ? entry.target.querySelectorAll('.reveal')
+            : [entry.target];
+          targets.forEach((el) => el.classList.toggle('is-in', entry.isIntersecting));
+        });
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.05 }
+    );
+
+    const groups = document.querySelectorAll('[data-reveal-group]');
+    groups.forEach((g) => io.observe(g));
+    revealEls.forEach((el) => {
+      if (!el.closest('[data-reveal-group]')) io.observe(el);
+    });
+    window.addEventListener('pagehide', () => clearTimeout(failsafe), { once: true });
+  }
+</script>

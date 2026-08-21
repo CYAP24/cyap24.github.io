@@ -1,0 +1,26 @@
+---
+// The brand corner motif (source: assets/visual motif SVG.svg), recoloured
+// per use via currentColor.
+interface Props {
+  color?: string;
+  size?: string;
+  class?: string;
+}
+const { color = 'currentColor', size = '1rem', class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 32 32"
+  fill="none"
+  role="presentation"
+  aria-hidden="true"
+  style={`color:${color}`}
+>
+  <path
+    d="M30.3564 1.28881C30.616 1.28881 30.7461 1.60275 30.5625 1.78636L27.9128 4.43598C27.8485 4.50034 27.7577 4.5308 27.6675 4.51919C21.4843 3.72364 15.0125 5.69998 10.2633 10.4492C5.51409 15.1984 3.53766 21.6702 4.33321 27.8534C4.34483 27.9437 4.31436 28.0345 4.25 28.0988L1.60065 30.7482C1.41704 30.9318 1.1031 30.8018 1.1031 30.5421L1.10296 1.58026C1.10296 1.4193 1.23345 1.2888 1.39442 1.2888L30.3564 1.28881Z"
+    fill="currentColor"
+  />
+</svg>

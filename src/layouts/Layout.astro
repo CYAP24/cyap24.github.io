@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Manningham General Practice — All your healthcare needs under one roof',
+  description = 'GP, pathology, pharmacy and skin clinic in the same building, Lower Templestowe. Open seven days with after-hours care. Book online in a minute or call (03) 8840 1400.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/assets/logo-light.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#2980b9" />
+  </head>
+  <body>
+    <!--
+      ============================================================
+      DIRECTION CONTRACT — MGP homepage (seed e87f31ca)
+      THESIS: The homepage is a booking launcher for a time-poor family
+        organiser. It refuses the generic clinic hero: stock smile, wall of
+        referral lists, buried phone number.
+      OWN-WORLD: MGP blue/amber/navy on warm paper (#F9F7F5). Public Sans
+        400–900. Amber (#FEB161) is spent only on the one Book action; navy
+        anchors the trust + independence sections; the medical-cross motif
+        appears as quiet accent, never as page structure. Iconoir line icons,
+        one stroke weight.
+      STORY: A visitor grasps trust in one glance, books in one move, then
+        explores services and finds a doctor in their own language.
+      FIRST VIEWPORT: An uncrowded hero — "All your healthcare needs under one
+        roof", a short trust-chip row (4.6★/779 · UoM + RACGP), a primary amber
+        Book button and tap-to-call. The six quick-access tiles sit just below
+        the fold, not crowding it.
+      FORM: task-launcher, "Quick Access, Then Explore"; index 4 of the
+        re-rolled surface list; seed e87f31ca.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with
+        the finish review, the verdict, DESIGN.md, and every shipping raster
+        carrying its provenance.
+      ============================================================
+    -->
+    <slot />
+  </body>
+</html>

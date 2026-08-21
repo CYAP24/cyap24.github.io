@@ -1,0 +1,22 @@
+{
+  "name": "mgp-website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/public-sans": "^5.2.5",
+    "@iconify-json/iconoir": "^1.2.7",
+    "astro": "^5.13.0",
+    "astro-icon": "^1.1.5"
+  },
+  "devDependencies": {
+    "ffmpeg-static": "^5.3.0",
+    "playwright": "^1.62.1"
+  }
+}

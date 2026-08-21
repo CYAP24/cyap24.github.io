@@ -1,0 +1,390 @@
+---
+import { Icon } from 'astro-icon/components';
+import { practice } from '../data/site.js';
+
+// Section 1 — announcement banner [CMS-editable single line; can be switched off].
+const announcement = 'Flu Vaccine 2026 now available';
+const announcementHref = '#'; // [CONFIRM] link to more info
+const showAnnouncement = true;
+
+// [CONFIRM] dropdown destinations — placeholders until interior pages exist.
+const nav = [
+  {
+    name: 'Services',
+    href: '#services',
+    items: [
+      { name: 'All services', href: '#services' },
+      { name: 'Everyday & family care', href: '#services' },
+      { name: 'Procedures on site', href: '#services' },
+      { name: 'Specialist clinics', href: '#services' },
+      { name: 'Partner clinics', href: '#services' },
+    ],
+  },
+  {
+    name: 'Doctors',
+    href: '#doctors',
+    items: [
+      { name: 'Find a doctor', href: '#doctors' },
+      { name: 'Care in your language', href: '#doctors' },
+    ],
+  },
+  {
+    name: 'About us',
+    href: '#',
+    items: [
+      { name: 'About MGP', href: '#' },
+      { name: 'Trusted, doctor-owned', href: '#' },
+      { name: 'Location & parking', href: '#location' },
+      { name: 'Careers at MGP', href: '/careers' },
+    ],
+  },
+  { name: 'Partners', href: '#' },
+  { name: 'MyMedicare', href: '/mymedicare' },
+];
+---
+
+{
+  showAnnouncement && (
+    <div class="announce">
+      <div class="wrap announce-inner">
+        <p>
+          {announcement}{' '}<a href={announcementHref} class="announce-link">learn more</a>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+<header class="site-header" id="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand" aria-label={`${practice.name} — home`}>
+      <img src="/assets/logo-dark.png" alt={practice.name} width="230" height="52" />
+    </a>
+
+    <span class="header-divider" aria-hidden="true"></span>
+
+    <div class="open-status">
+      <span class="open-dot" id="hdr-open-dot" aria-hidden="true"></span>
+      <span class="open-status-text">
+        <span id="hdr-open-label">Open 7 days</span>
+        <span class="open-time" id="hdr-open-time"></span>
+      </span>
+    </div>
+
+    <nav class="primary-nav" aria-label="Primary">
+      {nav.map((item) =>
+        item.items ? (
+          <div class="nav-item">
+            <button type="button" class="nav-link" aria-expanded="false">
+              {item.name} <Icon name="iconoir:nav-arrow-down" class="nav-caret" />
+            </button>
+            <div class="dropdown">
+              {item.items.map((sub) => <a href={sub.href}>{sub.name}</a>)}
+            </div>
+          </div>
+        ) : (
+          <a class="nav-link" href={item.href}>{item.name}</a>
+        )
+      )}
+    </nav>
+
+    <div class="header-actions">
+      <a href={practice.bookingUrl} class="btn btn-primary btn-sm" target="_blank" rel="noopener">Book online</a>
+      <a href="#location" class="btn btn-ghost-light btn-sm">Contact us</a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
+        <Icon name="iconoir:menu" />
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav aria-label="Mobile">
+      {nav.map((item) => <a href={item.href} data-nav-link>{item.name}</a>)}
+      <a href={practice.bookingUrl} class="btn btn-primary btn-block" target="_blank" rel="noopener" data-nav-link>
+        Book online
+      </a>
+      <a href="#location" class="btn btn-secondary btn-block" data-nav-link>Contact us</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .announce {
+    background: linear-gradient(90deg, var(--navy), var(--blue) 58%, var(--amber));
+    color: var(--white);
+    font-size: var(--fs-sm);
+  }
+  .announce-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 0.6rem;
+    text-align: center;
+  }
+  .announce p {
+    font-weight: 500;
+  }
+  .announce-link {
+    color: var(--white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 700;
+  }
+  .announce-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    min-height: 4.75rem;
+  }
+  .brand img {
+    height: 44px;
+    width: auto;
+  }
+  .header-divider {
+    width: 1px;
+    align-self: stretch;
+    margin-block: 1.1rem;
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .open-status {
+    display: flex;
+    align-items: center;
+    gap: 0.55em;
+    white-space: nowrap;
+  }
+  .open-status-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  #hdr-open-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--white);
+  }
+  .open-time {
+    font-size: 0.78rem;
+    color: var(--on-navy-2);
+  }
+  .open-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+  .open-dot.is-open {
+    animation: dotFlash 1.5s ease-in-out infinite;
+  }
+  .open-dot.is-closed {
+    background: #a9781f; /* darker yellow, static */
+  }
+  @keyframes dotFlash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .open-dot.is-open { animation: none; }
+  }
+
+  .primary-nav {
+    display: none;
+    align-items: center;
+    gap: clamp(0.5rem, 1.5vw, 1.4rem);
+    margin-left: auto;
+  }
+  .nav-item {
+    position: relative;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    background: none;
+    border: none;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: var(--on-navy);
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0.5rem 0.15rem;
+  }
+  .nav-link:hover {
+    color: var(--white);
+  }
+  .nav-caret {
+    font-size: 1rem;
+    transition: transform 0.18s var(--ease);
+  }
+  .nav-item:hover .nav-caret,
+  .nav-item:focus-within .nav-caret {
+    transform: rotate(180deg);
+  }
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: -0.5rem;
+    min-width: 230px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow);
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.16s var(--ease), transform 0.16s var(--ease), visibility 0.16s;
+    z-index: 60;
+  }
+  .nav-item:hover .dropdown,
+  .nav-item:focus-within .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .dropdown a {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--r-sm);
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .dropdown a:hover {
+    background: var(--blue-050);
+    color: var(--blue-700);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin-left: auto;
+  }
+  .primary-nav ~ .header-actions {
+    margin-left: 0;
+  }
+  .nav-toggle {
+    display: inline-flex;
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    font-size: 1.7rem;
+    padding: 0.25rem;
+  }
+  .header-actions .btn {
+    display: none;
+  }
+
+  .mobile-menu {
+    background: var(--navy);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: var(--sp-4) var(--gutter) var(--sp-5);
+  }
+  .mobile-menu nav > a:not(.btn) {
+    color: var(--on-navy);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .mobile-menu .btn {
+    margin-top: var(--sp-3);
+  }
+
+  @media (min-width: 980px) {
+    .primary-nav {
+      display: flex;
+    }
+    .header-actions {
+      margin-left: var(--sp-3);
+    }
+    .header-actions .btn {
+      display: inline-flex;
+    }
+    .nav-toggle {
+      display: none;
+    }
+    .mobile-menu {
+      display: none;
+    }
+  }
+  @media (max-width: 620px) {
+    .header-divider,
+    .open-status {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = menu?.hasAttribute('hidden');
+    if (open) {
+      menu?.removeAttribute('hidden');
+      toggle?.setAttribute('aria-expanded', 'true');
+    } else {
+      menu?.setAttribute('hidden', '');
+      toggle?.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.querySelectorAll('[data-nav-link]').forEach((link) =>
+    link.addEventListener('click', () => {
+      menu?.setAttribute('hidden', '');
+      toggle?.setAttribute('aria-expanded', 'false');
+    })
+  );
+
+  // Open / closed status + live time. Mon–Fri 8–20, Sat 9–17, Sun 9–13.
+  const schedule = { 0: [9, 13], 1: [8, 20], 2: [8, 20], 3: [8, 20], 4: [8, 20], 5: [8, 20], 6: [9, 17] };
+  const fmt = (d) => {
+    let h = d.getHours();
+    const m = d.getMinutes();
+    const ap = h < 12 ? 'am' : 'pm';
+    let hr = h % 12;
+    if (hr === 0) hr = 12;
+    return `${hr}:${String(m).padStart(2, '0')}${ap}`;
+  };
+  const updateStatus = () => {
+    const dot = document.getElementById('hdr-open-dot');
+    const label = document.getElementById('hdr-open-label');
+    const time = document.getElementById('hdr-open-time');
+    if (!dot || !label || !time) return;
+    const now = new Date();
+    const [o, c] = schedule[now.getDay()];
+    const hr = now.getHours() + now.getMinutes() / 60;
+    const open = hr >= o && hr < c;
+    dot.classList.toggle('is-open', open);
+    dot.classList.toggle('is-closed', !open);
+    label.textContent = open ? 'Open now' : 'Closed';
+    time.textContent = fmt(now);
+  };
+  updateStatus();
+  setInterval(updateStatus, 30000);
+</script>

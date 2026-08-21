@@ -1,0 +1,339 @@
+@import '@fontsource-variable/public-sans';
+
+/* ============================================================
+   MGP — Manningham General Practice
+   Design tokens. Brand kit: blue / amber / navy, Public Sans,
+   medical-cross + "one roof" motifs. Light-first: patients
+   browse on phones, daytime and after-hours; legibility leads.
+   ============================================================ */
+
+:root {
+  /* Brand palette (from context_brand) */
+  --blue: #2980b9;
+  --amber: #feb161;
+  --navy: #0c2748;
+  --paper: #f9f7f5;
+  --ink: #212529;
+  --white: #ffffff;
+
+  /* Derived shades */
+  --blue-700: #1f6591;
+  --blue-800: #17527a;
+  --blue-300: #8fbce0; /* light blue accent for dark (navy) surfaces */
+  --blue-050: #eaf3f9; /* pale tint field */
+  --blue-100: #d5e6f2;
+  --amber-600: #f4a049;
+  --amber-050: #fef3e4;
+  --navy-700: #143257;
+  --navy-050: #e7ebf1;
+
+  /* Neutrals */
+  --ink-2: #47505a; /* secondary text on light */
+  --ink-3: #6b747e; /* tertiary text on light */
+  --line: #e4e2de; /* hairline on paper */
+  --line-strong: #d3d0cb;
+
+  /* On-dark text */
+  --on-navy: #eef3f8;
+  --on-navy-2: #a9bcd2;
+
+  /* Typography */
+  --font-sans: 'Public Sans Variable', 'Public Sans', system-ui, -apple-system,
+    'Segoe UI', Roboto, sans-serif;
+  --heading-weight: 600;
+  --measure: 66ch;
+
+  /* Fluid type scale */
+  --fs-display: clamp(2.35rem, 1.4rem + 4.2vw, 3.9rem);
+  --fs-h2: clamp(1.7rem, 1.15rem + 2.4vw, 2.6rem);
+  --fs-h3: clamp(1.2rem, 1.05rem + 0.7vw, 1.45rem);
+  --fs-lead: clamp(1.075rem, 1rem + 0.4vw, 1.3rem);
+  --fs-body: 1.0625rem;
+  --fs-sm: 0.9rem;
+  --fs-xs: 0.795rem;
+
+  /* Spacing scale */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+  --sp-10: 8rem;
+
+  /* Radius */
+  --r-sm: 0.5rem;
+  --r-md: 0.875rem;
+  --r-lg: 1.25rem;
+  --r-xl: 1.75rem;
+  --r-pill: 999px;
+
+  /* Shadows (offset + soft blur) */
+  --shadow-sm: 0 1px 2px rgba(12, 39, 72, 0.06), 0 2px 6px rgba(12, 39, 72, 0.06);
+  --shadow: 0 4px 10px rgba(12, 39, 72, 0.08), 0 12px 28px rgba(12, 39, 72, 0.1);
+  --shadow-lg: 0 10px 24px rgba(12, 39, 72, 0.12), 0 30px 60px rgba(12, 39, 72, 0.16);
+  --shadow-amber: 0 6px 16px rgba(244, 160, 73, 0.35);
+
+  /* Layout */
+  --wrap: 1464px;
+  --wrap-narrow: 900px;
+  --gutter: clamp(1.1rem, 4vw, 3rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Reset-ish base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  --sbw: calc(100vw - 100%);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  font-weight: var(--heading-weight);
+  color: var(--navy);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--blue-700);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Browser surfaces themed from palette ---------- */
+::selection {
+  background: var(--amber);
+  color: var(--navy);
+}
+
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+* {
+  caret-color: var(--blue);
+}
+
+html {
+  scrollbar-color: var(--blue-100) transparent;
+}
+
+/* ---------- Layout helpers ---------- */
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wrap-narrow {
+  max-width: var(--wrap-narrow);
+}
+
+.section {
+  padding-block: clamp(3rem, 6vw, 5.5rem);
+}
+
+.eyebrow-none {
+  display: none;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--ink-2);
+  max-width: var(--measure);
+  line-height: 1.5;
+}
+
+.section-head h2 {
+  font-size: var(--fs-h2);
+}
+
+.section-head {
+  margin-bottom: var(--sp-6);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  --btn-bg: var(--blue);
+  --btn-fg: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.95rem 1.5rem;
+  border-radius: 0;
+  border: 2px solid transparent;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  --btn-bg: var(--amber);
+  --btn-fg: var(--navy);
+}
+.btn-primary:hover {
+  --btn-bg: var(--amber-600);
+}
+
+.btn-secondary {
+  --btn-bg: transparent;
+  --btn-fg: var(--navy);
+  border-color: var(--line-strong);
+}
+.btn-secondary:hover {
+  border-color: var(--navy);
+  background: var(--white);
+}
+
+.btn-ghost-light {
+  --btn-bg: transparent;
+  --btn-fg: var(--on-navy);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.btn-ghost-light:hover {
+  border-color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-sm {
+  padding: 0.65rem 1.05rem;
+  font-size: 0.92rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ---------- Chips / pills ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  background: var(--white);
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+}
+
+/* ---------- Icon sizing ---------- */
+[data-icon] svg,
+.icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* ---------- Surfaces ---------- */
+.surface-navy {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+.surface-navy h2,
+.surface-navy h3,
+.surface-navy h4 {
+  color: var(--white);
+}
+.surface-blue-tint {
+  background: var(--blue-050);
+}
+.surface-white {
+  background: var(--white);
+}
+
+/* Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.motif-divider {
+  height: 6px;
+  background: linear-gradient(90deg, var(--blue), var(--amber));
+  border: none;
+  margin: 0;
+}
+
+/* Room for the fixed mobile action bar so the footer isn't covered */
+@media (max-width: 899px) {
+  body {
+    padding-bottom: 4.75rem;
+  }
+}

@@ -1,0 +1,34 @@
+# build output
+dist/
+# generated types
+.astro/
+# dependencies
+node_modules/
+# logs
+npm-debug.log*
+# environment variables
+.env
+.env.production
+# macOS
+.DS_Store
+# impeccable local overrides
+.impeccable/config.local.json
+# local dev/screenshot helpers
+_shoot.mjs
+_vp.mjs
+_wt.mjs
+
+# local screenshot helpers
+_foot.mjs
+_loc.mjs
+_dbg.mjs
+_footer-*.png
+_loc*.png
+
+# local tooling & internal working material — not part of the published site
+/.claude/
+/.agents/
+/.impeccable/
+/context_research/
+/context_brand/
+/assets/
