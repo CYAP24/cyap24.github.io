@@ -43,6 +43,7 @@ const nav = [
 ];
 ---
 
+<div class="header-stack">
 {
   showAnnouncement && (
     <div class="announce">
@@ -107,8 +108,15 @@ const nav = [
     </nav>
   </div>
 </header>
+</div>
 
 <style>
+  /* Announcement + header travel together, so the promo line stays on screen. */
+  .header-stack {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
   .announce {
     background: linear-gradient(90deg, var(--navy), var(--blue) 58%, var(--amber));
     color: var(--white);
@@ -135,9 +143,6 @@ const nav = [
   }
 
   .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
     background: var(--navy);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
