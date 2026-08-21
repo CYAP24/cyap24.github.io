@@ -231,15 +231,14 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     font-weight: 600;
   }
 
-  /* Annotates the hours above it, so it sits close to them and opens a wider
-     gap below. Extra padding on the rail side keeps the text optically centred. */
+  /* Annotates the hours above it, so it sits close to them. The amber icon
+     carries the warning; the panel itself stays quiet. */
   .footer-note {
     max-width: 40ch;
     margin: var(--sp-4) 0 0;
-    padding: var(--sp-4) var(--sp-4) var(--sp-4) var(--sp-5);
+    padding: var(--sp-4);
     border-radius: var(--r-md);
     background: rgba(255, 255, 255, 0.05);
-    border-left: 3px solid var(--amber);
   }
   .footer-note-title {
     display: flex;
