@@ -13,6 +13,39 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
       <img src="/assets/logo-dark.png" alt={practice.name} width="230" height="52" />
       <p class="footer-blurb">{footerBlurb}</p>
 
+      <h3>Opening hours</h3>
+      <ul class="footer-hours">
+        {hours.map((h) => (
+          <li><span>{h.day}</span><span>{h.time}</span></li>
+        ))}
+      </ul>
+      <p class="footer-note">
+        <Icon name="iconoir:warning-circle" />
+        <span><strong>Note</strong> — {afterHoursNote}</span>
+      </p>
+    </div>
+
+    <div class="footer-col-stack">
+      {footerNav.filter((g) => !g.wide).map((g) => (
+        <div class="footer-col">
+          <h3>{g.title}</h3>
+          <ul>
+            {g.links.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    {footerNav.filter((g) => g.wide).map((g) => (
+      <div class="footer-col footer-col-wide">
+        <h3>{g.title}</h3>
+        <ul class="footer-list-split">
+          {g.links.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
+        </ul>
+      </div>
+    ))}
+
+    <div class="footer-visit">
       <a class="footer-address" href={practice.mapsUrl} target="_blank" rel="noopener">
         <Icon name="iconoir:map-pin" />
         <span>{practice.address}</span>
@@ -34,47 +67,6 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
           <Icon name="iconoir:facebook" />
         </a>
       </div>
-    </div>
-
-    <div class="footer-cols">
-      <div class="footer-col footer-col-hours">
-        <h3>Opening hours</h3>
-        <ul class="footer-hours">
-          {hours.map((h) => (
-            <li><span>{h.day}</span><span>{h.time}</span></li>
-          ))}
-        </ul>
-        <p class="footer-note">
-          <Icon name="iconoir:warning-circle" />
-          <span><strong>Note</strong> — {afterHoursNote}</span>
-        </p>
-        <ul class="footer-contact">
-          <li>
-            <Icon name="iconoir:phone" />
-            <a href={practice.phoneHref}>{practice.phone}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="footer-col-stack">
-        {footerNav.filter((g) => !g.wide).map((g) => (
-          <div class="footer-col">
-            <h3>{g.title}</h3>
-            <ul>
-              {g.links.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      {footerNav.filter((g) => g.wide).map((g) => (
-        <div class="footer-col footer-col-wide">
-          <h3>{g.title}</h3>
-          <ul class="footer-list-split">
-            {g.links.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
-          </ul>
-        </div>
-      ))}
     </div>
   </div>
 
@@ -109,7 +101,21 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
   .footer-blurb {
     max-width: 42ch;
     line-height: 1.55;
-    margin-bottom: var(--sp-4);
+    margin-bottom: var(--sp-6);
+  }
+  .footer-brand h3 {
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 var(--sp-4);
+  }
+  .footer-hours {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
   .footer-address {
     display: flex;
@@ -119,7 +125,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     line-height: 1.45;
     color: var(--on-navy-2);
     text-decoration: none;
-    margin-bottom: var(--sp-4);
+    margin-bottom: var(--sp-5);
   }
   .footer-address:hover {
     color: var(--white);
@@ -166,11 +172,6 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
   }
 
   /* ---------- Link columns ---------- */
-  .footer-cols {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--sp-6) var(--sp-6);
-  }
   .footer-col-stack {
     display: grid;
     gap: var(--sp-6);
@@ -244,27 +245,6 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     font-weight: 600;
   }
 
-  .footer-contact {
-    margin-top: var(--sp-5);
-  }
-  .footer-contact li {
-    display: flex;
-    align-items: center;
-    gap: 0.6em;
-  }
-  .footer-contact [data-icon] {
-    color: var(--blue-300);
-    flex-shrink: 0;
-  }
-  .footer-contact a {
-    color: var(--on-navy);
-    font-weight: 600;
-    text-decoration: none;
-  }
-  .footer-contact a:hover {
-    color: var(--white);
-  }
-
   /* ---------- Legal bar ---------- */
   .footer-legal {
     display: flex;
@@ -290,7 +270,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
   }
 
   @media (min-width: 640px) {
-    .footer-cols {
+    .footer-top {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .footer-col ul.footer-list-split {
@@ -302,18 +282,37 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
   }
 
   @media (min-width: 980px) {
-    .footer-cols {
-      grid-template-columns: 1.15fr 0.85fr 2fr;
+    .footer-top {
+      grid-template-columns: 1.2fr 0.75fr 1.9fr;
     }
     .footer-col-wide {
       grid-column: auto;
+    }
+    .footer-visit {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 22rem) minmax(0, 24rem);
+      align-items: start;
+      gap: var(--sp-6);
+    }
+    .footer-visit .footer-map {
+      grid-row: span 2;
+      margin-bottom: 0;
     }
   }
 
   @media (min-width: 1180px) {
     .footer-top {
-      grid-template-columns: minmax(300px, 0.95fr) 2.3fr;
-      gap: var(--sp-8);
+      grid-template-columns: 1.1fr 0.65fr 1.7fr minmax(320px, 1.25fr);
+      gap: var(--sp-7);
+    }
+    .footer-visit {
+      grid-column: auto;
+      display: block;
+    }
+    .footer-visit .footer-map {
+      grid-row: auto;
+      margin-bottom: var(--sp-5);
     }
   }
 </style>
