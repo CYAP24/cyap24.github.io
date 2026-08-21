@@ -1,0 +1,76 @@
+---
+// TEMPORARY client-review page. Renders the live site inside a fixed 1920px
+// viewport and scales it to fit the visitor's window, so everyone reviews the
+// same desktop layout regardless of their screen. Media queries inside an
+// iframe resolve against the iframe's width, not the browser's.
+// Delete this file once the design is signed off.
+const FRAME_WIDTH = 1920;
+---
+
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MGP — desktop preview (1920px)</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/assets/logo-icon.png" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #0c2748;
+        overflow: hidden;
+      }
+      #stage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: top left;
+        will-change: transform;
+      }
+      #stage iframe {
+        display: block;
+        border: 0;
+        background: #f9f7f5;
+      }
+      /* Scale readout, so the client knows they are seeing a fitted 1920 view. */
+      #tag {
+        position: fixed;
+        right: 12px;
+        bottom: 12px;
+        z-index: 10;
+        padding: 0.4rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(12, 39, 72, 0.85);
+        color: #eef3f8;
+        font: 500 12px/1 'Public Sans', system-ui, sans-serif;
+        letter-spacing: 0.02em;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <iframe id="frame" src="/" title="Manningham General Practice — desktop preview"></iframe>
+    </div>
+    <div id="tag">Desktop preview — locked to 1920px</div>
+
+    <script is:inline define:vars={{ FRAME_WIDTH }}>
+      const stage = document.getElementById('stage');
+      const frame = document.getElementById('frame');
+      const tag = document.getElementById('tag');
+
+      const fit = () => {
+        const scale = Math.min(1, window.innerWidth / FRAME_WIDTH);
+        frame.style.width = FRAME_WIDTH + 'px';
+        frame.style.height = Math.ceil(window.innerHeight / scale) + 'px';
+        stage.style.transform = `scale(${scale})`;
+        tag.textContent = `Desktop preview — 1920px at ${Math.round(scale * 100)}%`;
+      };
+
+      fit();
+      addEventListener('resize', fit);
+    </script>
+  </body>
+</html>
