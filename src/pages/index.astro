@@ -870,10 +870,13 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     background-repeat: no-repeat;
     pointer-events: none;
   }
+  /* Both motif fields run at 2x scale: the left one is pushed further off the
+     viewport so only its shoulder shows, the right one reaches back under the
+     cards. */
   .why::before {
-    left: -2vw;
-    bottom: -5vw;
-    width: 42vw;
+    left: -44vw;
+    bottom: -18vw;
+    width: 84vw;
     aspect-ratio: 985 / 676;
     background-image: url('/assets/pattern-left.webp');
     background-size: contain;
@@ -882,7 +885,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
   .why::after {
     right: -1vw;
     top: 0;
-    width: 14.5vw;
+    width: 29vw;
     aspect-ratio: 450 / 451;
     background-image: url('/assets/pattern-right.webp');
     background-size: contain;
