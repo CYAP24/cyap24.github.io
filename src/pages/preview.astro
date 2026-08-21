@@ -71,6 +71,27 @@ const FRAME_WIDTH = 1920;
 
       fit();
       addEventListener('resize', fit);
+
+      // The nav dropdown destinations are placeholders, so the preview shows the
+      // nav as flat labels: no panels, no caret, no pointer affordance.
+      const flattenNav = () => {
+        const doc = frame.contentDocument;
+        if (!doc) return;
+        const style = doc.createElement('style');
+        style.dataset.preview = 'flat-nav';
+        style.textContent = `
+          .dropdown { display: none !important; }
+          .nav-caret { display: none !important; }
+          .nav-item > .nav-link { cursor: default !important; }
+        `;
+        doc.head.appendChild(style);
+        doc.querySelectorAll('.nav-item > .nav-link').forEach((btn) => {
+          btn.setAttribute('aria-expanded', 'false');
+          btn.setAttribute('tabindex', '-1');
+        });
+      };
+      frame.addEventListener('load', flattenNav);
+      if (frame.contentDocument?.readyState === 'complete') flattenNav();
     </script>
   </body>
 </html>
