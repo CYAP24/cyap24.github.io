@@ -43,7 +43,7 @@ const nav = [
 ];
 ---
 
-<div class="header-stack">
+<div class="header-stack" id="header-stack">
 {
   showAnnouncement && (
     <div class="announce">
@@ -111,11 +111,21 @@ const nav = [
 </div>
 
 <style>
-  /* Announcement + header travel together, so the promo line stays on screen. */
+  /* Announcement + header travel together. Scrolling down slides the promo
+     line out of view behind the header; scrolling up brings it back. */
   .header-stack {
     position: sticky;
     top: 0;
     z-index: 50;
+    transition: transform 0.32s var(--ease);
+  }
+  .header-stack.is-tucked {
+    transform: translateY(calc(var(--announce-h, 0px) * -1));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header-stack {
+      transition: none;
+    }
   }
   .announce {
     background: linear-gradient(90deg, var(--navy), var(--blue) 58%, var(--amber));
@@ -365,6 +375,42 @@ const nav = [
       toggle?.setAttribute('aria-expanded', 'false');
     })
   );
+
+  // Promo bar tucks up behind the header on scroll down, returns on scroll up.
+  const stack = document.getElementById('header-stack');
+  const announce = document.querySelector('.announce');
+  if (stack && announce) {
+    const setHeight = () =>
+      stack.style.setProperty('--announce-h', `${announce.offsetHeight}px`);
+    setHeight();
+    addEventListener('resize', setHeight);
+
+    let lastY = scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      const y = Math.max(0, scrollY);
+      const h = announce.offsetHeight;
+      if (y <= h) {
+        stack.classList.remove('is-tucked');
+      } else if (y > lastY + 4) {
+        stack.classList.add('is-tucked');
+      } else if (y < lastY - 4) {
+        stack.classList.remove('is-tucked');
+      }
+      lastY = y;
+      ticking = false;
+    };
+    addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(onScroll);
+        }
+      },
+      { passive: true }
+    );
+  }
 
   // Open / closed status + live time. Mon–Fri 8–20, Sat 9–17, Sun 9–13.
   const schedule = { 0: [9, 13], 1: [8, 20], 2: [8, 20], 3: [8, 20], 4: [8, 20], 5: [8, 20], 6: [9, 17] };

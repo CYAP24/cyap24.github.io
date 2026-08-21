@@ -874,8 +874,8 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
      viewport so only its shoulder shows, the right one reaches back under the
      cards. */
   .why::before {
-    left: -20vw;
-    bottom: -10vw;
+    left: -32vw;
+    bottom: -20vw;
     width: 84vw;
     aspect-ratio: 985 / 676;
     background-image: url('/assets/pattern-left.webp');
@@ -883,8 +883,8 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     background-position: left bottom;
   }
   .why::after {
-    right: -1vw;
-    top: 0;
+    right: -7vw;
+    top: -12vw;
     width: 29vw;
     aspect-ratio: 450 / 451;
     background-image: url('/assets/pattern-right.webp');
@@ -918,7 +918,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     padding: var(--sp-6) var(--sp-5);
     background: var(--white);
     border: 1px solid var(--line);
-    border-radius: var(--r-lg);
+    border-radius: calc(var(--r-lg) * 0.9);
     transition: transform 0.96s var(--ease), border-color 0.96s var(--ease);
   }
   /* Two layers displacing at different speeds: a navy→blue sheet descends from
