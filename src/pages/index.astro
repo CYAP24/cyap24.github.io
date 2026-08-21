@@ -43,6 +43,15 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
             <li><Icon name="iconoir:check" /> Same day appointments</li>
           </ul>
 
+          <div class="hero-actions">
+            <a class="btn btn-primary" href={practice.bookingUrl} target="_blank" rel="noopener">
+              <Icon name="iconoir:calendar-plus" /> Book online
+            </a>
+            <a class="btn btn-secondary" href={practice.phoneHref}>
+              <Icon name="iconoir:phone" /> {practice.phone}
+            </a>
+          </div>
+
           <div class="hero-badges">
             <span class="badge badge-google">
               <img src="/assets/google-icon.png" alt="Google" width="26" height="26" />
@@ -550,14 +559,25 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     color: var(--blue);
   }
   .hero-copy .lead {
-    margin-top: var(--sp-6);
+    margin-top: var(--sp-4);
     max-width: 38ch;
   }
   .hero-points {
     display: flex;
     flex-wrap: wrap;
     gap: var(--sp-3) var(--sp-6);
-    margin-top: var(--sp-7);
+    margin-top: var(--sp-5);
+  }
+  /* Booking is the page's job: the CTA pair sits directly under the proof
+     points, ahead of the credibility badges. */
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-6);
+  }
+  .hero-actions .btn [data-icon] {
+    font-size: 1.15em;
   }
   .hero-points li {
     display: inline-flex;
@@ -1970,6 +1990,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(
     .hero-animate .hero-copy > *:nth-child(2) { animation-delay: 0.14s; }
     .hero-animate .hero-copy > *:nth-child(3) { animation-delay: 0.22s; }
     .hero-animate .hero-copy > *:nth-child(4) { animation-delay: 0.3s; }
+    .hero-animate .hero-copy > *:nth-child(5) { animation-delay: 0.38s; }
   }
   @keyframes heroRise {
     to {
